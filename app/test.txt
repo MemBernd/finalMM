@@ -1,2 +1,2 @@
-Hi there!
 Hej!
+Added new line.
