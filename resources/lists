@@ -1,0 +1,21 @@
+status list for Task:
+1   created
+2   acceptedBySCSO
+3   rejected
+4   acceptedByAM
+5   processedByFM
+6   summaryCreated
+7   open
+8   pendingReviewSTM
+9   pendingRequest
+10  finished
+
+
+values of Preferences
+INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Decorations');
+INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Parties');
+INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Photos/Filming');
+INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Drinks');
+INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Food');
+INSERT INTO `sep`.`Preferences` (`name`) VALUES ('WiFi');
+INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Other');

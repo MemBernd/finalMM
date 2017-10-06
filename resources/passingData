@@ -1,0 +1,83 @@
+loginForm:
+    Provide:
+        username String
+        password String
+    Return:
+        role    String
+        ?or false
+
+CSO landing page:
+    carry username - String (maybe use sessionstorage)
+
+
+CSO creating eventRequest:
+    Provide:
+        clientRecord - integer
+        eventType   - String
+        eventStartDateTime  - DATETIME
+        eventEndDateTime    - DATETIME
+        attendees       - int
+        budget      - float
+        status      - string
+    Return:
+        execution - String  ["success", "failure", "client doesn't exists"]
+
+SCSO landing page:
+    carry username - String
+    show tasklist, therefore return:
+        table with:
+            idTask - int
+            subject - String
+            description - String
+            priority - - String
+            status - STring     (filter tasks to 'created')
+            eventRecord - INT
+            creator - String    (username of employee, in this case empty)
+            assignee - String   (username of employee)
+
+    task will be processed by accepting or rejecting
+        provide:
+            idTask - int
+            decision - String ["accepted", "rejected"]
+
+SCSO summary writing
+    carry eventRecord - int
+    provide:
+        eventRecord - int (carried)
+        eventType - String
+        description - String
+        attendees - int
+        eventStartDate - DATETIME
+        eventEndDate - DATETIME
+        budget - float
+        list of objects of preferences
+
+SCSO search for client
+        provide:
+            name - String
+        return:
+            clientRecord - INT
+            company - String
+
+SCSO create client:
+    provide:
+        name - String
+        company - String
+    Return:
+        execution - String  ["success", "failure"]
+
+FM tasklist:
+    general tasklist.php
+
+FM adding feedback:
+    provide:
+        eventRecord - INT
+        description - String
+    Return:
+        execution - String  ["success", "failure"]
+(process task)
+
+AM tasklist:
+    general tasklist.php
+
+AM process Request:
