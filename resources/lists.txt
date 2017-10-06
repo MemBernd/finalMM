@@ -19,3 +19,11 @@ INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Drinks');
 INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Food');
 INSERT INTO `sep`.`Preferences` (`name`) VALUES ('WiFi');
 INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Other');
+
+INSERT INTO `sep`.`Role` (`name`) VALUES ('Financial Manager');
+INSERT INTO `sep`.`Role` (`name`) VALUES ('Administration Manager');
+INSERT INTO `sep`.`Role` (`name`) VALUES ('CSO');
+INSERT INTO `sep`.`Role` (`name`) VALUES ('SCSO');
+INSERT INTO `sep`.`Role` (`name`) VALUES ('Production Manager');
+INSERT INTO `sep`.`Role` (`name`) VALUES ('Service Manager');
+INSERT INTO `sep`.`Role` (`name`) VALUES ('HR Manager');
