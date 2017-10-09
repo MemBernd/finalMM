@@ -5,6 +5,7 @@ var username, password;
 var httpRequest;
 var attempt = 3; // Variable to count number of attempts.
 // Below function Executes on click of login button.
+//sessionStorage.actor = "null";
 function validate() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
