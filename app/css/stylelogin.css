@@ -61,7 +61,7 @@ background: linear-gradient(#ffdd7f 5%, #ffbc00 100%);
 }
 
 body:after{
-	background-image: url('cover.JPG');
+	background-image: url('img/cover.JPG');
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;

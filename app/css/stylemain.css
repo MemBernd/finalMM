@@ -15,8 +15,8 @@ h1{
 	font-size: 2em;
 }
 
-body{
-	background-image: url('cover.JPG');
+body {
+	background-image: url('../img/cover.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;

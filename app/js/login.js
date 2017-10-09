@@ -9,7 +9,7 @@ var attempt = 3; // Variable to count number of attempts.
 function validate() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
-    makeRequest('getCredentials.php');
+    makeRequest('php/getCredentials.php');
 
 }
 
