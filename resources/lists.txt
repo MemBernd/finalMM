@@ -5,6 +5,10 @@ status list for Task:
 4   acceptedByAM
 5   processedByFM
 6   summaryCreated
+
+//added
+staffRequest
+
 7   open
 8   pendingReviewSTM
 9   pendingRequest
