@@ -53,13 +53,13 @@ function alertContents() {
                     table += "<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
                 }
                 if (tasklist.status[i] == "processedByFM" && sessionStorage.actor == "mike") {
-                    "<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
+                    table +="<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
                 }
                 if ((tasklist.status[i] == "summaryCreated" || tasklist.status[i] == "open" || tasklist.status[i] == "pendingReviewSTM") && (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie")) {
-                    "<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
+                    table +="<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
                 }
                 if (tasklist.status[i] == "staffRequest" && sessionStorage.actor == "simon") {
-                    "<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
+                    table +="<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
                 }
                     
             }
