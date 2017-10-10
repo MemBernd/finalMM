@@ -38,20 +38,8 @@ function alertContents() {
             	sessionStorage.actor = username;
                 if (myRole == "CSO") {
                     window.location = "cso.html"; // Redirecting to other page.
-                } else if (myRole == "Financial Manager") {
-                	window.location = "fm.html";
-                } else if (myRole == "Production Manager") {
-                	window.location = "pm.html";
-                } else if (myRole == "SCSO") {
-                	window.location = "scso.html";
-                } else if (myRole == "Subteam") {
-                	window.location = "subteam.html";
-                } else if (myRole == "Administration Manager") {
-                	window.location = "am.html";
-                } else if (myRole == "Service Manager") {
-                	window.location = "sm.html";
-                } else { //HR Manager
-                	window.location = "hr.html";
+                } else { 
+                	window.location = "managers.html";
                 }
 
                 return false;
