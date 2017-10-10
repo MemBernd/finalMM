@@ -1,4 +1,3 @@
-var idTask, subject, description, priority, status, eventRecord, creator, assignee;
 var tasklist; //a list of tasks
 
 function actor(){
@@ -6,20 +5,6 @@ function actor(){
 		window.location = "main.html";
 	} else {
 		if (window.location.pathname == "/app/cso.html" && sessionStorage.actor != "sarah") {
-			window.location = "main.html";
-		} else if (window.location.pathname == "/app/fm.html" && sessionStorage.actor != "alice") {
-			window.location = "main.html";
-		} else if (window.location.pathname == "/app/pm.html" && sessionStorage.actor != "jack") {
-			window.location = "main.html";
-		} else if (window.location.pathname == "/app/scso.html" && sessionStorage.actor != "janet") {
-			window.location = "main.html";
-		} else if (window.location.pathname == "/app/subteam.html" && sessionStorage.actor != "magy") {
-			window.location = "main.html";
-		} else if (window.location.pathname == "/app/am.html" && sessionStorage.actor != "mike") {
-			window.location = "main.html";
-		} else if (window.location.pathname == "/app/sm.html" && sessionStorage.actor != "natalie") {
-			window.location = "main.html";
-		} else if (window.location.pathname == "/app/hr.html" && sessionStorage.actor != "simon") {
 			window.location = "main.html";
 		} else {
 			document.getElementById("makevisible").style.visibility = "visible" ;
@@ -79,7 +64,7 @@ function alertContents() {
             	    
             }
 
-            table += "/tbody";
+            table += "</tbody>";
             document.getElementById("listTitle").innerHTML = "<h3>List with tasks</h3>";
             document.getElementById("displaytasks").innerHTML = table;
         }
