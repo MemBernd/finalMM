@@ -17,6 +17,14 @@ CSO creating eventRequest:
         eventStartDateTime  - DATETIME
         eventEndDateTime    - DATETIME
         attendees       - int
+
+        //added
+        decorations - string
+        parties - string
+        photos - string
+        breakfast - string
+        drinks - string
+
         budget      - float
         status      - string
     Return:
