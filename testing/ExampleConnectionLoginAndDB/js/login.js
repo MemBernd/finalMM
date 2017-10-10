@@ -1,4 +1,5 @@
-var myCreds,
+var myPassword,
+    myUsername,
     myRole;
 var username, password;
 var httpRequest;
@@ -9,6 +10,7 @@ function validate() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
     makeRequest('php/getCredentials.php');
+
 }
 
 function makeRequest(url) {
@@ -22,7 +24,7 @@ function makeRequest(url) {
     httpRequest.onreadystatechange = alertContents;
     httpRequest.open('POST', url);
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    httpRequest.send('username=' + encodeURIComponent(username) +
+    httpRequest.send('username=' + encodeURIComponent(username)+
                     '&password=' + encodeURIComponent(password));
 }
 
@@ -30,27 +32,29 @@ function alertContents() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
             var response = JSON.parse(httpRequest.responseText);
-            myCreds = response.creds;
+            //myUsername = response.username;
+            //myPassword = response.password;
+            creds = response.creds;
             myRole = response.role;
-            alert("creds: " + myCreds + " role: " + myRole);
+            alert("creds: " + creds + " role: " + myRole);
 
-            if (myCreds == "true") {
-            	sessionStorage.actor = username;
-                if (myRole == "CSO") {
+            if (myUsername == username && myPassword == password) {
+            	sessionStorage.actor = myUsername;
+                if (myUsername == "sarah") {
                     window.location = "cso.html"; // Redirecting to other page.
-                } else if (myRole == "Financial Manager") {
+                } else if (myUsername == "alice") {
                 	window.location = "fm.html";
-                } else if (myRole == "Production Manager") {
+                } else if (myUsername == "jack") {
                 	window.location = "pm.html";
-                } else if (myRole == "SCSO") {
+                } else if (myUsername == "janet") {
                 	window.location = "scso.html";
-                } else if (myRole == "Subteam") {
+                } else if (myUsername == "magy") {
                 	window.location = "subteam.html";
-                } else if (myRole == "Administration Manager") {
+                } else if (myUsername == "mike") {
                 	window.location = "am.html";
-                } else if (myRole == "Service Manager") {
+                } else if (myUsername == "natalie") {
                 	window.location = "sm.html";
-                } else { //HR Manager
+                } else { //simon
                 	window.location = "hr.html";
                 }
 
