@@ -20,10 +20,10 @@ $sql = "INSERT INTO eventrequest (eventType, eventStartDateTime, eventEndDateTim
 $result = modify($sql);
 
 if ($result == -1) {
-    $array = ["result" => "success"];
+    $array = ["result" => "failure"];
     echo json_encode($array);
 } else {
-    $array = ["result" => "failure"];
+    $array = ["result" => "success"];
     echo json_encode($array);
 }
 /*
