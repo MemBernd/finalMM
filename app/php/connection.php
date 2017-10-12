@@ -19,8 +19,9 @@ function select($query) {
 function modify($query) {
     global $con;
     if (mysqli_query($con,$query)) {
+        $id = mysqli_insert_id($con);
         mysqli_close($con);
-        return mysql_insert_id($con);
+        return $id;
     } else {
         mysqli_close($con);
         return -1;
