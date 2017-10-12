@@ -3,7 +3,7 @@ var myExecution;
 var status;
 
 function pressenter() {
-    document.getElementById("budget") = function(event) {
+    document.getElementById("budget").onkeydown = function(event) {
         if (event.keyCode == 13) {
             validate();
         }
@@ -55,16 +55,19 @@ function makeRequest(url) {
 function alertContents() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-            var response = httpRequest.responseText;
-            myExecution = response;
-            alert("response text: " + response);
+            var response = JSON.parse(httpRequest.responseText);
+            myExecution = response.result;
+            alert("response text: " + myExecution);
 
             if (myExecution == "success"){
                 alert('Success');
+                window.location = "cso.html";
             } else if (myExecution == "failure") {
                 alert('Failure');
+                window.location = "cso.html";
             } else {
-                alert('Client does not exist');
+                alert('Problem inserting.');
+                window.location = "cso.html"
             }
             return false;
 
@@ -72,7 +75,4 @@ function alertContents() {
             alert('There was a problem with this request. ' + httpRequest.status + ' | ');
         }
     }
-    else {
-            alert("Request ready state not done: " + httpRequest.readyState + " |");
-        }
 }

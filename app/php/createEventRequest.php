@@ -18,10 +18,13 @@ $idEventRequestStatus = 1;
 $sql = "INSERT INTO eventrequest (eventType, eventStartDateTime, eventEndDateTime, attendees, budget, clientRecord, idEventRequestStatus) ".
 "VALUES ('".$eventType."', '".$eventStartDateTime."', '".$eventEndDateTime."', ".$attendees.", ".$budget.", ".$clientRecord.", ".$idEventRequestStatus.");";
 $result = modify($sql);
+
 if ($result == -1) {
-    echo "failure";
+    $array = ["result" => "success"];
+    echo json_encode($array);
 } else {
-    echo "success";
+    $array = ["result" => "failure"];
+    echo json_encode($array);
 }
 /*
 if ($result == -1) {
