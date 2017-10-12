@@ -10,21 +10,21 @@ function actor(){
 			document.getElementById("makevisible").style.visibility = "visible" ;
 			document.getElementById("displayactor").innerHTML = "<h1>Welcome " + jsUcfirst(sessionStorage.actor) + " </h1>";
 			if (sessionStorage.actor != "sarah" && sessionStorage.actor != "magy" ) {
-				makeRequest('');
+				makeRequest2('');
 			}
 		}
 	}
-   
+
 }
 
 //function to capitalize first letter of a string
-function jsUcfirst(string) 
+function jsUcfirst(string)
 {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 
-function makeRequest(url) {
+function makeRequest2(url) {
     httpRequest = new XMLHttpRequest();
 
     if (!httpRequest) {
@@ -32,13 +32,13 @@ function makeRequest(url) {
         return false;
     }
 
-    httpRequest.onreadystatechange = alertContents;
+    httpRequest.onreadystatechange = alertContents2;
     httpRequest.open('POST', url);
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send();
 }
 
-function alertContents() {
+function alertContents2() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
             var response = JSON.parse(httpRequest.responseText);
@@ -61,7 +61,7 @@ function alertContents() {
                 if (tasklist.status[i] == "staffRequest" && sessionStorage.actor == "simon") {
                     table +="<tr><td>" + tasklist.idTask[i] + "</td><td>" + tasklist.subject[i] + "</td><td>" + tasklist.description[i] + "</td><td>" + tasklist.priority[i] + "</td><td>" + tasklist.status[i] + "</td><td>" + tasklist.eventRecord[i] + "</td><td>" + tasklist.creator[i] + "</td><td>" + tasklist.assignee[i] + "</td></tr>";
                 }
-                    
+
             }
 
             table += "</tbody>";
@@ -69,7 +69,7 @@ function alertContents() {
             document.getElementById("displaytasks").innerHTML = table;
         }
     } else {
-            alert('There was a problem with the request.');
+            alert('There was a problem with displayTasklist request. ' + httpRequest.status + ' |');
             }
 }
 
