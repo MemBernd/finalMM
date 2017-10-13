@@ -69,7 +69,7 @@ function alertContents2() {
             document.getElementById("displaytasks").innerHTML = table;
         }
     } else {
-            alert('There was a problem with displayTasklist request. ' + httpRequest.status + ' |');
+            alert('Ready state: ' + httpRequest.readyState);
             }
 }
 

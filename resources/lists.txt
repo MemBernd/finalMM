@@ -6,14 +6,12 @@ status list for Task:
 5   processedByFM
 6   summaryCreated
 
-//added
-staffRequest
-
 7   open
 8   pendingReviewSTM
-9   pendingRequest
+9   pendingRequest  //budget
 10  finished
-
+11  staffRequest
+12  processedByHR
 
 values of Preferences
 INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Decorations');

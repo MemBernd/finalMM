@@ -48,8 +48,7 @@ function makeRequest(url) {
     '&photos=' + encodeURIComponent(ph) +
     '&breakfast=' + encodeURIComponent(br) +
     '&drinks=' + encodeURIComponent(dr) +
-    '&budget=' + encodeURIComponent(budget) +
-    '&status=' + encodeURIComponent(status));
+    '&budget=' + encodeURIComponent(budget));
 }
 
 function alertContents() {
@@ -57,7 +56,6 @@ function alertContents() {
         if (httpRequest.status === 200) {
             var response = JSON.parse(httpRequest.responseText);
             myExecution = response.result;
-            alert("response text: " + myExecution);
 
             if (myExecution == "success"){
                 alert('Success');
@@ -72,7 +70,7 @@ function alertContents() {
             return false;
 
         } else {
-            alert('There was a problem with this request. ' + httpRequest.status + ' | ');
+            alert('There was a problem with this request. ' + httpRequest.status);
         }
     }
 }

@@ -13,6 +13,7 @@ $breakfast = (isset($_POST['breakfast'])) ? $_POST['breakfast'] : null;
 $drinks = (isset($_POST['drinks'])) ? $_POST['drinks'] : null;
 $budget = (isset($_POST['budget'])) ? $_POST['budget'] : 0;
 $idEventRequestStatus = 1;
+$username = (isset($_POST['username'])) ? $_POST['username'] : "sarah";
 
 //execute
 $sql = "INSERT INTO eventrequest (eventType, eventStartDateTime, eventEndDateTime, attendees, budget, clientRecord, idEventRequestStatus) ".
@@ -21,9 +22,14 @@ $result = modify($sql);
 
 if ($result == -1) {
     $array = ["result" => "failure"];
+    close();
     echo json_encode($array);
 } else {
     $array = ["result" => "success"];
+    $sql ="INSERT INTO `task` (`subject`, `description`, `priority`, `status`, `eventRecord`, `creator`, `assignee`)"
+        . " VALUES ('Initial Request decision', 'Accept or reject the event request by clientRecord ".$clientRecord."', 'high', 'created', ".$result.", '".$username."', 'janet');";
+    $result2 = modify($sql);
+    close();
     echo json_encode($array);
 }
 /*

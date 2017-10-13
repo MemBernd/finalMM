@@ -11,7 +11,6 @@ function select($query) {
     global $con;
 
     $result = mysqli_query($con,$query);
-    mysqli_close($con);
     return $result;
 }
 
@@ -20,10 +19,8 @@ function modify($query) {
     global $con;
     if (mysqli_query($con,$query)) {
         $id = mysqli_insert_id($con);
-        mysqli_close($con);
         return $id;
     } else {
-        mysqli_close($con);
         return -1;
     }
 }
@@ -32,11 +29,14 @@ function modify($query) {
 function delete($query) {
     global $con;
     if(msqli_query($con,$query)) {
-        mysqli_close($con);
-        return true;
+        return 1;
     } else {
-        mysqli_close($con);
-        return false;
+
+        return 0;
     }
+}
+function close() {
+    global $con;
+    mysqli_close($con);
 }
 ?>
