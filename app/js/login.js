@@ -36,10 +36,11 @@ function alertContents() {
 
             if (myCreds == "true") {
             	sessionStorage.actor = username;
+                sessionStorage.logged = "true";
                 if (myRole == "CSO") {
                     window.location = "cso.html"; // Redirecting to other page.
                 } else { 
-                	window.location = "managers.html";
+                	window.location = "tasklist.html";
                 }
 
                 return false;
