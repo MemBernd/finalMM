@@ -15,8 +15,7 @@ while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $r;
     $rowsAlt['object_name'][] = $r;
 }
-print json_encode($rows);
-print "\n";
+echo json_encode($rows);
 //print json_encode($rowsAlt);
 
 ?>
