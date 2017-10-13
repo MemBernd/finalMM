@@ -1,7 +1,7 @@
 <?php
 
 require_once 'connection.php';
-$username = (isset($_POST['username'])) ? $_POST['username'] : 'janet';
+$username = (isset($_POST['username'])) ? $_POST['username'] : 'no username';
 
 $sql = "SELECT task.idTask, task.subject, task.description, task.priority, eventrequest.idEventRequestStatus as status,"
     ." task.eventRecord, task.creator, task.assignee"
@@ -10,10 +10,8 @@ $sql = "SELECT task.idTask, task.subject, task.description, task.priority, event
 $result = select($sql);
 close();
 $rows = array();
-$rowsAlt = array();
 while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $r;
-    $rowsAlt['object_name'][] = $r;
 }
 echo json_encode($rows);
 //print json_encode($rowsAlt);

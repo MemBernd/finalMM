@@ -1,7 +1,7 @@
 
 <?php
 require_once 'connection.php';
-$clientRecord = (isset($_POST['clientRecord'])) ? $_POST['clientRecord'] : 1;
+$clientRecord = (isset($_POST['clientRecord'])) ? $_POST['clientRecord'] : 0;
 $eventType = (isset($_POST['eventType'])) ? $_POST['eventType'] : null;
 $eventStartDateTime = (isset($_POST['eventStartDateTime'])) ? $_POST['eventStartDateTime'] : null;
 $decorations = (isset($_POST['decorations'])) ? $_POST['decorations'] : null;
