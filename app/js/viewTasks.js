@@ -94,7 +94,6 @@ function addTaskHandler() {
                         document.getElementById('ModalBody').setAttribute("rows", "6");
                         document.getElementById('ModalBody').setAttribute("cols", "100"); 
                         document.getElementById('ModalBody').setAttribute("name", "summary"); 
-                        //document.getElementById('ModalBody').setAttribute("type", "text"); 
                         document.getElementById('FooterDefault').innerHTML = "Cancel";
                         document.getElementById('FooterSecond').innerHTML = "Send";
                         row.setAttribute("data-toggle", "modal");
