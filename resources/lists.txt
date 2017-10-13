@@ -1,4 +1,4 @@
-status list for Task:
+status list for eventRequest:
 1   created
 2   acceptedBySCSO
 3   rejected

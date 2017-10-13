@@ -11,5 +11,6 @@ if(mysqli_num_rows($result) > 0) {
 } else {
     $array = ['creds' => 'false', 'role' => null];
 }
+close();
 echo json_encode($array);
 ?>

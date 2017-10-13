@@ -25,10 +25,10 @@ function modify($query) {
     }
 }
 
-//function to execute when deleting
-function delete($query) {
+//function to execute when deleting or callinp procedures
+function execute($query) {
     global $con;
-    if(msqli_query($con,$query)) {
+    if(mysqli_query($con,$query)) {
         return 1;
     } else {
 

@@ -1,0 +1,26 @@
+exported routines:
+    scsoAccept:
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `scsoAccept`(id int)
+begin
+DECLARE idevent int;
+SET idevent = (Select eventRecord from Task where idTask = id);
+UPDATE `task` SET assignee = 'alice', subject = 'Feedback for eventRequest'
+WHERE idTask = id;
+UPDATE eventrequest SET idEventRequestStatus = 2 where eventRecord = idevent;
+END$$
+DELIMITER ;
+
+    scsoReject:
+    
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `scsoReject`(IN `id` INT)
+begin
+DECLARE idevent int;
+SET idevent = (Select eventRecord from Task where idTask = id);
+Delete from task
+WHERE idTask = id;
+UPDATE eventrequest SET idEventRequestStatus = 3 where eventRecord = idevent;
+END$$
+DELIMITER ;
