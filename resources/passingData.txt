@@ -65,6 +65,7 @@ SCSO search for client
             name - String
         return:
             clientRecord - INT
+            clientName - String //added 13.10
             company - String
 
 SCSO create client:
@@ -77,9 +78,25 @@ SCSO create client:
 FM tasklist:
     general tasklist.php
 
-FM adding feedback:
+FM deciding over event request: -> fmGetEventFromTask.php
+    //opens an task regarding an event request with status 2 (acceptedBySCSO)
     provide:
-        eventRecord - INT
+        idTask - int
+    return:
+        eventRecord - int
+        eventType - String
+        eventStartDateTime - Datetime
+        eventEndDateTime - datetime
+        attendees - int
+        budget - decimal(10,2)
+        clientName - String
+        company - String
+
+
+
+FM adding feedback: //carry the idTask from before
+    provide:
+        idTask - INT
         description - String
     Return:
         execution - String  ["success", "failure"]

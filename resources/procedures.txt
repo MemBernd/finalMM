@@ -1,7 +1,7 @@
 exported routines:
-    scsoAccept:
+//can be copied completely, the -- should work as a comment
 
-DELIMITER $$
+DELIMITER $$    --scsoAccept
 CREATE DEFINER=`root`@`localhost` PROCEDURE `scsoAccept`(id int)
 begin
 DECLARE idevent int;
@@ -12,9 +12,7 @@ UPDATE eventrequest SET idEventRequestStatus = 2 where eventRecord = idevent;
 END$$
 DELIMITER ;
 
-    scsoReject:
-    
-DELIMITER $$
+DELIMITER $$    --scsoReject
 CREATE DEFINER=`root`@`localhost` PROCEDURE `scsoReject`(IN `id` INT)
 begin
 DECLARE idevent int;
@@ -22,5 +20,37 @@ SET idevent = (Select eventRecord from Task where idTask = id);
 Delete from task
 WHERE idTask = id;
 UPDATE eventrequest SET idEventRequestStatus = 3 where eventRecord = idevent;
+END$$
+DELIMITER ;
+
+DELIMITER $$    --View Event + Details based on taskID
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEventDetailsFromTask`(IN `id` INT)
+begin
+Declare idEvent int;
+SET idEvent = (Select task.eventRecord from task where task.idTask = id);
+SELECT eventrequest.eventRecord, eventrequest.eventType, eventrequest.eventStartDateTime, eventrequest.eventEndDateTime,
+eventrequest.attendees, eventrequest.budget,
+client.name as clientName, client.company
+FROM `eventrequest`
+JOIN client ON
+eventrequest.clientRecord = client.clientRecord
+WHERE eventrequest.eventRecord = idEvent;
+end$$
+DELIMITER ;
+
+DELIMITER $$    --process the event request by fm
+CREATE DEFINER=`root`@`localhost` PROCEDURE `fmProcessed`(IN `taskId` INT, IN `description` MEDIUMTEXT)
+BEGIN
+Declare idEvent int;
+set idEvent = (Select eventRecord from task where idTask =  taskId);
+INSERT INTO `financialfeedback` (`eventRecord`, `description`)
+VALUES (idEvent, description);
+Update task set
+task.subject = "Approve or reject event request.",
+task.assignee = 'mike'
+WHERE idTask = taskId;
+UPDATE eventrequest SET
+eventrequest.idEventRequestStatus = 5
+where eventRecord = idEvent;
 END$$
 DELIMITER ;

@@ -1,9 +1,9 @@
 status list for eventRequest:
-1   created
-2   acceptedBySCSO
-3   rejected
+1   created             //done
+2   acceptedBySCSO      //done
+3   rejectedBySCSO           //halfway done
 4   acceptedByAM
-5   processedByFM
+5   processedByFM       //done
 6   summaryCreated
 
 7   open
@@ -12,6 +12,7 @@ status list for eventRequest:
 10  finished
 11  staffRequest
 12  processedByHR
+13  rejectedByAm
 
 values of Preferences
 INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Decorations');
