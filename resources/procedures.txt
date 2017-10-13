@@ -13,7 +13,7 @@ END$$
 DELIMITER ;
 
     scsoReject:
-    
+
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `scsoReject`(IN `id` INT)
 begin

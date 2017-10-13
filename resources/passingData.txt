@@ -65,6 +65,7 @@ SCSO search for client
             name - String
         return:
             clientRecord - INT
+            clientName - String //added 13.10
             company - String
 
 SCSO create client:
