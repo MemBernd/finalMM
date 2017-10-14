@@ -211,13 +211,26 @@ function showEvent() {
             //condition = acceptedByAM
             if (condition == 4) {
                 document.getElementById('ModalLabel').innerHTML = "Create Summary";
-                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp<textarea></textarea>";
-                document.getElementById('ModalBody').setAttribute("rows", "6");
-                document.getElementById('ModalBody').setAttribute("cols", "100");
-                //document.getElementById('ModalBody').setAttribute("name", "summary");
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
+                var elem = document.createElement("textarea");
+                var elemCont = document.getElementById("ModalBody2");
+
+                elem.setAttribute("placeholder", "Write here the bussiness meeting summary...");
+                elem.setAttribute("cols", 65);
+                elem.setAttribute("rows", 4);
+
+                elemCont.appendChild(elem);
 
                 document.getElementById('FooterDefault').innerHTML = "Cancel";
                 document.getElementById('FooterSecond').innerHTML = "Submit";
+
+                document.getElementById('closemodal').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
+
+                document.getElementById('FooterDefault').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
 
                 document.getElementById('FooterSecond').onclick = function() {
 
@@ -232,6 +245,7 @@ function showEvent() {
                     httpRequestD.open('POST', 'php/createSummary.php');
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequestD.send('eventRecord=' + encodeURIComponent(eventRecord[stands]));
+                    elemCont.removeChild(elem);
                     window.location = "tasklist.html";
                 }
             }
