@@ -1,7 +1,7 @@
 var idTask = [];
 var level = [];
 var eventRecord = [];
-var getEvent, getSCSOdecision;
+var getEvent, getSCSOdecision, getAMdecision;
 var condition, stands;
 
 function name() {
@@ -107,7 +107,7 @@ function addTaskHandler() {
                     }
 
                     //case FM
-                    if (sessionStorage.actor == "alice"){
+                    if (sessionStorage.actor == "alice") {
                         var httpRequest = new XMLHttpRequest();
 
                         if (!httpRequest) {
@@ -119,6 +119,26 @@ function addTaskHandler() {
                         httpRequest.open('POST', 'php/getEventAndInitialPreferenceFromTask.php');
                         httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+                        row.setAttribute("data-toggle", "modal");
+                        row.setAttribute("data-target", "#myModal");
+                    }
+
+                    //case AM
+                    if (sessionStorage.actor == "mike") {
+                        var httpRequest = new XMLHttpRequest();
+
+                        if (!httpRequest) {
+                            alert('Giving up :( Cannot create an XMLHTTP instance');
+                            return false;
+                        }
+
+                        httpRequest.onreadystatechange = showEvent;
+                        httpRequest.open('POST', 'php/getEventAndInitialPreferenceFromTask.php');
+                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+
 
                         row.setAttribute("data-toggle", "modal");
                         row.setAttribute("data-target", "#myModal");
@@ -149,7 +169,7 @@ function showEvent() {
             //SCSO test cases
             //condition = created
             if (condition == 1) {
-                document.getElementById('ModalLabel').innerHTML = "Approve or Reject the New Event Eequest?"; //+ row.getElementsByTagName('td')[0].innerHTML + ": New Event Request";
+                document.getElementById('ModalLabel').innerHTML = "Approve or Reject the New Event Request"; //+ row.getElementsByTagName('td')[0].innerHTML + ": New Event Request";
                 document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
                 document.getElementById('FooterDefault').innerHTML = "Reject";
                 document.getElementById('FooterSecond').innerHTML = "Approve";
@@ -200,7 +220,7 @@ function showEvent() {
                 document.getElementById('FooterSecond').innerHTML = "Submit";
 
                 document.getElementById('FooterSecond').onclick = function() {
-                    
+
                     var httpRequestD = new XMLHttpRequest();
 
                     if (!httpRequestD) {
@@ -229,7 +249,7 @@ function showEvent() {
                 document.getElementById('FooterSecond').innerHTML = "Submit";
 
                 document.getElementById('FooterSecond').onclick = function() {
-                    
+
                     var httpRequestD = new XMLHttpRequest();
 
                     if (!httpRequestD) {
@@ -253,7 +273,7 @@ function showEvent() {
                 document.getElementById('FooterSecond').innerHTML = "Submit";
 
                 document.getElementById('FooterSecond').onclick = function() {
-                    
+
                     var httpRequestD = new XMLHttpRequest();
 
                     if (!httpRequestD) {
@@ -268,6 +288,26 @@ function showEvent() {
                     window.location = "tasklist.html";
                 }
             }
+
+            //AM test case
+            //condition = processedByFM
+            if (condition == 5) {
+
+                var httpRequest2 = new XMLHttpRequest();
+
+                if (!httpRequest2) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequest2.onreadystatechange = showSummary;
+                httpRequest2.open('POST', 'php/fmBudgetNegotiation.php');
+                httpRequest2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequest2.send('idTask=' + encodeURIComponent(idTask[stands]));
+                window.location = "tasklist.html";
+
+
+            }
         }
     }
 }
@@ -281,5 +321,51 @@ function getDecision() {
     }
 }
 
+function showSummary() {
+    if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+
+            document.getElementById('ModalLabel').innerHTML = "Approve or Reject the New Event Request"; //+ row.getElementsByTagName('td')[0].innerHTML + ": New Event Request";
+            document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
+            document.getElementById('FooterDefault').innerHTML = "Reject";
+            document.getElementById('FooterSecond').innerHTML = "Approve";
+
+            document.getElementById('FooterDefault').onclick = function() {
+                getAMdecision = 'rejected';
+                var httpRequestD = new XMLHttpRequest();
+
+                if (!httpRequestD) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequestD.onreadystatechange = getDecision;
+                httpRequestD.open('POST', 'php/amDecision.php');
+                httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&decision=' + encodeURIComponent(getAMdecision));
+                window.location = "tasklist.html";
+            }
+
+            document.getElementById('FooterSecond').onclick = function() {
+                getAMdecision = 'accepted';
+                var httpRequestD = new XMLHttpRequest();
+
+                if (!httpRequestD) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequestD.onreadystatechange = getDecision;
+                httpRequestD.open('POST', 'php/amDecision.php');
+                httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&decision=' + encodeURIComponent(getAMdecision));
+                window.location = "tasklist.html";
+
+            }
+
+        }
+    }
+}
 
 window.onload = name;
