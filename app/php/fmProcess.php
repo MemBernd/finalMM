@@ -1,8 +1,8 @@
 
 <?php
 require_once 'connection.php';
-$idTask = (isset($_POST['idTask'])) ? $_POST['idTask'] : 0 ;
-$description = (isset($_POST['description'])) ? $_POST['description'] : 'none';
+$idTask = (isset($_POST['idTask'])) ? $_POST['idTask'] : 1 ;
+$description = (isset($_POST['description'])) ? $_POST['description'] : 'this and that';
 $result = 0;
     $sql = "call fmProcessed(".$idTask.", '".$description."');";
     $result = execute($sql);

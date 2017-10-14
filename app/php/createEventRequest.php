@@ -13,13 +13,13 @@ $breakfast = (isset($_POST['breakfast'])) ? $_POST['breakfast'] : null;
 $drinks = (isset($_POST['drinks'])) ? $_POST['drinks'] : null;
 $wifi = (isset($_POST['wifi'])) ? $_POST['wifi'] : null;
 $budget = (isset($_POST['budget'])) ? $_POST['budget'] : 0;
-$idEventRequestStatus = 1;
+$statusCreated = 1;
 $username = (isset($_POST['username'])) ? $_POST['username'] : "sarah";
 $onValue = "true";
 
 //execute
 $sql = "INSERT INTO eventrequest (eventType, eventStartDateTime, eventEndDateTime, attendees, budget, clientRecord, idEventRequestStatus) ".
-"VALUES ('".$eventType."', '".$eventStartDateTime."', '".$eventEndDateTime."', ".$attendees.", ".$budget.", ".$clientRecord.", ".$idEventRequestStatus.");";
+"VALUES ('".$eventType."', '".$eventStartDateTime."', '".$eventEndDateTime."', ".$attendees.", ".$budget.", ".$clientRecord.", ".$statusCreated.");";
 $result = modify($sql);
 
 if ($result == -1) {
@@ -28,8 +28,8 @@ if ($result == -1) {
     echo json_encode($array);
 } else {
     $array = ["result" => "success"];
-    $sql ="INSERT INTO `task` (`subject`, `description`, `priority`, `status`, `eventRecord`, `creator`, `assignee`)"
-        . " VALUES ('Initial Request decision', 'Lorem ipsum ".$clientRecord."', 'high', 'created', ".$result.", '".$username."', 'janet');";
+    $sql ="INSERT INTO `task` (`subject`, `description`, `priority`, `statusID`, `eventRecord`, `creator`, `assignee`)"
+        . " VALUES ('Initial Request decision', 'Lorem ipsum ".$clientRecord."', 'high', ".$statusCreated.", ".$result.", '".$username."', 'janet');";
     $result2 = modify($sql);
     //preferences
     if($decorations == $onValue ) {
