@@ -29,7 +29,7 @@ if ($result == -1) {
 } else {
     $array = ["result" => "success"];
     $sql ="INSERT INTO `task` (`subject`, `description`, `priority`, `status`, `eventRecord`, `creator`, `assignee`)"
-        . " VALUES ('Initial Request decision', 'Accept or reject the event request by clientRecord ".$clientRecord."', 'high', 'created', ".$result.", '".$username."', 'janet');";
+        . " VALUES ('Initial Request decision', 'Lorem ipsum ".$clientRecord."', 'high', 'created', ".$result.", '".$username."', 'janet');";
     $result2 = modify($sql);
     //preferences
     if($decorations == $onValue ) {
