@@ -1,27 +1,44 @@
 status list for eventRequest:
 1   created             //done
 2   acceptedBySCSO      //done
-3   rejectedBySCSO           //halfway done
-4   acceptedByAM
+3   rejectedBySCSO      //done
+4   acceptedByAM        /done
 5   processedByFM       //done
 6   summaryCreated
-
 7   open
 8   pendingReviewSTM
-9   pendingRequest  //budget
+9   pendingRequest
 10  finished
 11  staffRequest
 12  processedByHR
-13  rejectedByAm
+13  rejectedByAm        //done
 
 values of Preferences
-INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Decorations');
-INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Parties');
-INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Photos/Filming');
-INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Drinks');
-INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Food');
-INSERT INTO `sep`.`Preferences` (`name`) VALUES ('WiFi');
-INSERT INTO `sep`.`Preferences` (`name`) VALUES ('Other');
+'Decorations'
+'Parties'
+'Photos/Filming'
+'Drinks'
+'Food'
+'WiFi'
+'Other'
+
+employees
+alice, 'Financial Manager'
+mike, 'Administration Manager'
+sarah, 'CSO');
+janet, 'SCSO');
+jack, 'Production Manager'
+natalie, 'Service Manager'
+simon, 'HR Manager'
+magy, 'Subteam'
+angelina, 'Decoration'
+antony, 'Audio',
+julia, 'Graphic Designer'
+nicolas, 'Network'
+helen, 'Chef'
+kate, 'Waitress'
+
+
 
 INSERT INTO `sep`.`Role` (`name`) VALUES ('Financial Manager');
 INSERT INTO `sep`.`Role` (`name`) VALUES ('Administration Manager');

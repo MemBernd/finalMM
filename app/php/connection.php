@@ -39,4 +39,10 @@ function close() {
     global $con;
     mysqli_close($con);
 }
+
+function reseting() {
+    global $con;
+    close();
+    $con = mysqli_connect('localhost','root','','sep');
+}
 ?>

@@ -1,14 +1,20 @@
 <?php
-require_once 'connection.php';
+include 'connection.php';
 
 //input is id of task
-$idTask= (isset($_POST['idTask'])) ? $_POST['idTask'] : 0;
+$idTask= (isset($_POST['idTask'])) ? $_POST['idTask'] : 11;
 $sql = "call getEventDetailsFromTask(".$idTask.");";
 $result = select($sql); //function is called from connection.php
-close();
 $rows = array();
-while($r = mysqli_fetch_assoc($result)) {
-    $rows[] = $r;
+if($r = mysqli_fetch_assoc($result)) {
+    $rows['task'] = $r;
 }
+reseting();
+$sql2 = "call getInitialPreferencesFromTask(".$idTask.");";
+$result2 = select($sql2);
+while($r2 = mysqli_fetch_assoc($result2)) {
+    $rows['preferences'][] = $r2;
+}
+close();
 echo json_encode($rows);
 ?>

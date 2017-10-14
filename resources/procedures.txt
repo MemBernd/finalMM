@@ -54,3 +54,36 @@ eventrequest.idEventRequestStatus = 5
 where eventRecord = idEvent;
 END$$
 DELIMITER ;
+
+DELIMITER $$    -- am rejects
+CREATE DEFINER=`root`@`localhost` PROCEDURE `amReject`(IN `id` INT)
+begin
+DECLARE idevent int;
+SET idevent = (Select eventRecord from Task where idTask = id);
+Delete from task
+WHERE idTask = id;
+UPDATE eventrequest SET idEventRequestStatus = 13 where eventRecord = idevent;
+END$$
+DELIMITER ;
+
+DELIMITER $$    --am approves
+CREATE DEFINER=`root`@`localhost` PROCEDURE `amAccept`(id int)
+begin
+DECLARE idevent int;
+SET idevent = (Select eventRecord from Task where idTask = id);
+UPDATE `task` SET assignee = 'janet', subject = 'Create Summary for Task'
+WHERE idTask = id;
+UPDATE eventrequest SET idEventRequestStatus = 4 where eventRecord = idevent;
+END$$
+DELIMITER ;
+
+DELIMITER $$    --get preferences from a task id
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getInitialPreferencesFromTask`(IN `id` INT)
+begin
+Declare idEvent int;
+SET idEvent = (Select task.eventRecord from task where task.idTask = id);
+SELECT preference
+FROM `eventrequestpreferences`
+WHERE eventRecord = idEvent;
+end$$
+DELIMITER ;
