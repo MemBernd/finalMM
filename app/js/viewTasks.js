@@ -85,14 +85,11 @@ function addTaskHandler() {
             function(row, pos) {
                 return function() {
 
+                    condition = level[pos];
+                    stands = pos;
+
                     //Case SCSO
                     if (sessionStorage.actor == "janet") {
-                        //case after CSO sends a new event request
-                        //if (level[pos] == 1)
-
-                        condition = level[pos];
-                        stands = pos;
-
                         var httpRequest = new XMLHttpRequest();
 
                         if (!httpRequest) {
@@ -108,13 +105,31 @@ function addTaskHandler() {
                         row.setAttribute("data-toggle", "modal");
                         row.setAttribute("data-target", "#myModal");
                     }
+
+                    //case FM
+                    if (sessionStorage.actor == "alice"){
+                        var httpRequest = new XMLHttpRequest();
+
+                        if (!httpRequest) {
+                            alert('Giving up :( Cannot create an XMLHTTP instance');
+                            return false;
+                        }
+
+                        httpRequest.onreadystatechange = showEvent;
+                        httpRequest.open('POST', 'php/getEventAndInitialPreferenceFromTask.php');
+                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+                        row.setAttribute("data-toggle", "modal");
+                        row.setAttribute("data-target", "#myModal");
+                    }
+
+
                 };
             };
         currentRow.onclick = createClickHandler(currentRow, pos);
     }
 }
-
-
 
 function showEvent() {
     if (this.readyState === XMLHttpRequest.DONE) {
@@ -131,6 +146,8 @@ function showEvent() {
 
             getEvent = "<p>&nbsp&nbsp&nbsp&nbsp <b>Event Record: </b>" + response.task.eventRecord + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Event Type: </b>" + response.task.eventType + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Start Date:</b> " + response.task.eventStartDateTime + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>End Date:</b> " + response.task.eventEndDateTime + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Attendees:</b> " + response.task.attendees + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Budget:</b> " + response.task.budget + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Client Name:</b> " + response.task.clientName + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Company:</b> " + response.task.company + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Preferences:</b> " + preferences.toString() + "</p>";
 
+            //SCSO test cases
+            //condition = created
             if (condition == 1) {
                 document.getElementById('ModalLabel').innerHTML = "Approve or Reject the New Event Eequest?"; //+ row.getElementsByTagName('td')[0].innerHTML + ": New Event Request";
                 document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
@@ -171,6 +188,7 @@ function showEvent() {
                 }
             }
 
+            //condition = acceptedByAM
             if (condition == 4) {
                 document.getElementById('ModalLabel').innerHTML = "Create Summary";
                 document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp<textarea></textarea>";
@@ -196,12 +214,63 @@ function showEvent() {
                     httpRequestD.send('eventRecord=' + encodeURIComponent(eventRecord[stands]));
                     window.location = "tasklist.html";
                 }
+            }
 
+            //FM test cases
+            //condition = acceptedBySCSO
+            if (condition == 2) {
+                document.getElementById('ModalLabel').innerHTML = "Write Feedback";
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp<textarea></textarea>";
+                document.getElementById('ModalBody').setAttribute("rows", "6");
+                document.getElementById('ModalBody').setAttribute("cols", "100");
+                //document.getElementById('ModalBody').setAttribute("name", "summary");
+
+                document.getElementById('FooterDefault').innerHTML = "Cancel";
+                document.getElementById('FooterSecond').innerHTML = "Submit";
+
+                document.getElementById('FooterSecond').onclick = function() {
+                    
+                    var httpRequestD = new XMLHttpRequest();
+
+                    if (!httpRequestD) {
+                        alert('Giving up :( Cannot create an XMLHTTP instance');
+                        return false;
+                    }
+
+                    httpRequestD.onreadystatechange = getDecision;
+                    httpRequestD.open('POST', 'php/fmProcess.php');
+                    httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+                    window.location = "tasklist.html";
+                }
+            }
+
+            //condition = pendingRequest
+            if (condition == 9) {
+                document.getElementById('ModalLabel').innerHTML = "Budget Negotiation";
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp<label>Final budget negotiation: <input>";
+                document.getElementById('FooterDefault').innerHTML = "Cancel";
+                document.getElementById('FooterSecond').innerHTML = "Submit";
+
+                document.getElementById('FooterSecond').onclick = function() {
+                    
+                    var httpRequestD = new XMLHttpRequest();
+
+                    if (!httpRequestD) {
+                        alert('Giving up :( Cannot create an XMLHTTP instance');
+                        return false;
+                    }
+
+                    httpRequestD.onreadystatechange = getDecision;
+                    httpRequestD.open('POST', '');
+                    httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    httpRequestD.send('');
+                    window.location = "tasklist.html";
+                }
             }
         }
     }
 }
-
 
 function getDecision() {
     if (this.readyState === XMLHttpRequest.DONE) {
