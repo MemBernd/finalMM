@@ -16,11 +16,11 @@ function validate() {
     start = document.getElementById("from").value;
     end = document.getElementById("to").value;
     att = document.getElementById("attendees").value;
-    dec = document.getElementById("decorations").value;
-    par = document.getElementById("parties").value;
-    ph = document.getElementById("photos").value;
-    br = document.getElementById("breakfast").value;
-    dr = document.getElementById("drinks").value;
+    dec = document.getElementById("decorations").checked;
+    par = document.getElementById("parties").checked;
+    ph = document.getElementById("photos").checked;
+    br = document.getElementById("breakfast").checked;
+    dr = document.getElementById("drinks").checked;
     budget = document.getElementById("budget").value;
     status = "created"; //event request status
     makeRequest('php/createEventRequest.php'); //to be changed for a php file

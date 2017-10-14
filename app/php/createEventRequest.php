@@ -1,7 +1,7 @@
 
 <?php
 require_once 'connection.php';
-$clientRecord = (isset($_POST['clientRecord'])) ? $_POST['clientRecord'] : 0;
+$clientRecord = (isset($_POST['clientRecord'])) ? $_POST['clientRecord'] : 1;
 $eventType = (isset($_POST['eventType'])) ? $_POST['eventType'] : null;
 $eventStartDateTime = (isset($_POST['eventStartDateTime'])) ? $_POST['eventStartDateTime'] : null;
 $decorations = (isset($_POST['decorations'])) ? $_POST['decorations'] : null;
@@ -15,7 +15,7 @@ $wifi = (isset($_POST['wifi'])) ? $_POST['wifi'] : null;
 $budget = (isset($_POST['budget'])) ? $_POST['budget'] : 0;
 $idEventRequestStatus = 1;
 $username = (isset($_POST['username'])) ? $_POST['username'] : "sarah";
-$onValue = "on";
+$onValue = "true";
 
 //execute
 $sql = "INSERT INTO eventrequest (eventType, eventStartDateTime, eventEndDateTime, attendees, budget, clientRecord, idEventRequestStatus) ".
@@ -65,19 +65,5 @@ if ($result == -1) {
     close();
     echo json_encode($array);
 }
-/*
-if ($result == -1) {
-    echo "failure";
-} else {
-    $sql = "INSERT INTO eventrequestpreferences (eventRecord, preference)
-            VALUES (".$result.", '".$decorations."');";
-    $result = modify($sql);
-    $result = modify($sql);
-    $result = modify($sql);
-    $result = modify($sql);
-    $result = modify($sql);
 
-
-    echo "success";
-}*/
 ?>
