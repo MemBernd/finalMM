@@ -4,7 +4,7 @@ var eventRecord = [];
 var getEvent, getSCSOdecision, getAMdecision;
 var condition, stands;
 
-function name() {
+function welcomeActor() {
     if (!sessionStorage.actor) {
         window.location = "main.html";
     } else {
@@ -346,7 +346,7 @@ function showEvent() {
                 }
 
                 httpRequest2.onreadystatechange = showSummary;
-                httpRequest2.open('POST', 'php/fmBudgetNegotiation.php');
+                httpRequest2.open('POST', 'php/getEventRequestFeedback.php');
                 httpRequest2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 httpRequest2.send('idTask=' + encodeURIComponent(idTask[stands]));
 
@@ -369,12 +369,11 @@ function getDecision() {
 function showSummary() {
     if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
-            //alert(this.responseText);
-            var response = this.responseText;
-            alert(this.responseText);
+            var response = JSON.parse(this.responseText);
 
-            document.getElementById('ModalLabel').innerHTML = "Approve or Reject the Processed Event Request"; //+ row.getElementsByTagName('td')[0].innerHTML + ": New Event Request";
-            document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp" + response.result;
+            document.getElementById('ModalLabel').innerHTML = "Approve or Reject the Processed Event Request"; 
+            document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
+            document.getElementById('ModalBody2').innerHTML = "<b>Financial's Manager feedback: </b><p>" + response.feedback + "</p>";
             document.getElementById('FooterDefault').innerHTML = "Reject";
             document.getElementById('FooterSecond').innerHTML = "Approve";
 
@@ -415,4 +414,4 @@ function showSummary() {
     }
 }
 
-window.onload = name;
+window.onload = welcomeActor;
