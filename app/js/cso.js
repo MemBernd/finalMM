@@ -65,7 +65,7 @@ function alertContents() {
                 window.location = "cso.html";
             } else {
                 alert('Problem inserting.');
-                window.location = "cso.html"
+                window.location = "cso.html";
             }
             return false;
 

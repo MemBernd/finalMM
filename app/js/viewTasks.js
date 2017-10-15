@@ -3,6 +3,7 @@ var level = [];
 var eventRecord = [];
 var getEvent, getSCSOdecision, getAMdecision;
 var condition, stands;
+var idSummary;
 
 function welcomeActor() {
     if (!sessionStorage.actor) {
@@ -10,10 +11,18 @@ function welcomeActor() {
     } else {
         if (window.location.pathname == "/app/cso.html" && sessionStorage.actor != "sarah") {
             window.location = "main.html";
-        } else {
+        } else if (window.location.pathname == "/app/summary.html" && sessionStorage.actor != "janet") {
+            window.location = "main.html";
+        } else if (window.location.pathname == "/app/summary.html" && sessionStorage.actor == "janet") {
+            document.title = "SEP Event Summary";
+            document.getElementById("makevisible").style.visibility = "visible";
+            document.getElementById("displayactor").innerHTML = "<h1>New event request summary for task #" + Cookies.get('idTaskSum') + "</h1>"; 
+        } 
+        else {
             document.title = "SEP " + jsUcfirst(sessionStorage.actor);
             document.getElementById("makevisible").style.visibility = "visible";
             document.getElementById("displayactor").innerHTML = "<h1>Welcome " + jsUcfirst(sessionStorage.actor) + " </h1>";
+            
             if (sessionStorage.actor != "sarah" && sessionStorage.actor != "magy") {
                 makeTaskRequest('php/getTaskList.php', sessionStorage.actor); //to be added
             }
@@ -212,41 +221,14 @@ function showEvent() {
             if (condition == 4) {
                 document.getElementById('ModalLabel').innerHTML = "Create Summary";
                 document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
-                var elem = document.createElement("textarea");
-                var elemCont = document.getElementById("ModalBody2");
-
-                elem.setAttribute("placeholder", "Write here the bussiness meeting summary...");
-                elem.setAttribute("cols", 65);
-                elem.setAttribute("rows", 4);
-
-                elemCont.appendChild(elem);
-
+                
                 document.getElementById('FooterDefault').innerHTML = "Cancel";
-                document.getElementById('FooterSecond').innerHTML = "Submit";
-
-                document.getElementById('closemodal').onclick = function() {
-                    elemCont.removeChild(elem);
-                }
-
-                document.getElementById('FooterDefault').onclick = function() {
-                    elemCont.removeChild(elem);
-                }
+                document.getElementById('FooterSecond').innerHTML = "Create";
 
                 document.getElementById('FooterSecond').onclick = function() {
-
-                    var httpRequestD = new XMLHttpRequest();
-
-                    if (!httpRequestD) {
-                        alert('Giving up :( Cannot create an XMLHTTP instance');
-                        return false;
-                    }
-
-                    httpRequestD.onreadystatechange = getDecision;
-                    httpRequestD.open('POST', 'php/createSummary.php');
-                    httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    httpRequestD.send('eventRecord=' + encodeURIComponent(eventRecord[stands]));
-                    elemCont.removeChild(elem);
-                    window.location = "tasklist.html";
+                    idSummary = idTask[stands];
+                    Cookies.set('idTaskSum', idSummary);
+                    window.location = "summary.html"
                 }
             }
 
