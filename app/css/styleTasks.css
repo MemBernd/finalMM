@@ -140,3 +140,7 @@ td.text-center {
 td.text-right {
   text-align: right;
 }
+
+#ModalBody2 {
+  padding-left: 20px;
+}

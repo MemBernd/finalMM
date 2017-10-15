@@ -100,7 +100,7 @@ function addTaskHandler() {
                         httpRequest.onreadystatechange = showEvent;
                         httpRequest.open('POST', 'php/getEventAndInitialPreferenceFromTask.php');
                         httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        httpRequest.send('idTask=' + encodeURIComponent(idTask[pos]));
+                        httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
 
                         row.setAttribute("data-toggle", "modal");
                         row.setAttribute("data-target", "#myModal");
@@ -211,13 +211,26 @@ function showEvent() {
             //condition = acceptedByAM
             if (condition == 4) {
                 document.getElementById('ModalLabel').innerHTML = "Create Summary";
-                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp<textarea></textarea>";
-                document.getElementById('ModalBody').setAttribute("rows", "6");
-                document.getElementById('ModalBody').setAttribute("cols", "100");
-                //document.getElementById('ModalBody').setAttribute("name", "summary");
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
+                var elem = document.createElement("textarea");
+                var elemCont = document.getElementById("ModalBody2");
+
+                elem.setAttribute("placeholder", "Write here the bussiness meeting summary...");
+                elem.setAttribute("cols", 65);
+                elem.setAttribute("rows", 4);
+
+                elemCont.appendChild(elem);
 
                 document.getElementById('FooterDefault').innerHTML = "Cancel";
                 document.getElementById('FooterSecond').innerHTML = "Submit";
+
+                document.getElementById('closemodal').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
+
+                document.getElementById('FooterDefault').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
 
                 document.getElementById('FooterSecond').onclick = function() {
 
@@ -232,6 +245,7 @@ function showEvent() {
                     httpRequestD.open('POST', 'php/createSummary.php');
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequestD.send('eventRecord=' + encodeURIComponent(eventRecord[stands]));
+                    elemCont.removeChild(elem);
                     window.location = "tasklist.html";
                 }
             }
@@ -240,13 +254,26 @@ function showEvent() {
             //condition = acceptedBySCSO
             if (condition == 2) {
                 document.getElementById('ModalLabel').innerHTML = "Write Feedback";
-                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp<textarea></textarea>";
-                document.getElementById('ModalBody').setAttribute("rows", "6");
-                document.getElementById('ModalBody').setAttribute("cols", "100");
-                //document.getElementById('ModalBody').setAttribute("name", "summary");
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
+                var elem = document.createElement("textarea");
+                var elemCont = document.getElementById("ModalBody2");
+
+                elem.setAttribute("placeholder", "Write here your feedback...");
+                elem.setAttribute("cols", 65);
+                elem.setAttribute("rows", 4);
+
+                elemCont.appendChild(elem);
 
                 document.getElementById('FooterDefault').innerHTML = "Cancel";
                 document.getElementById('FooterSecond').innerHTML = "Submit";
+
+                document.getElementById('closemodal').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
+
+                document.getElementById('FooterDefault').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
 
                 document.getElementById('FooterSecond').onclick = function() {
 
@@ -260,7 +287,8 @@ function showEvent() {
                     httpRequestD.onreadystatechange = getDecision;
                     httpRequestD.open('POST', 'php/fmProcess.php');
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+                    httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&description=' + encodeURIComponent(elem.value));
+                    elemCont.removeChild(elem);
                     window.location = "tasklist.html";
                 }
             }
@@ -268,9 +296,25 @@ function showEvent() {
             //condition = pendingRequest
             if (condition == 9) {
                 document.getElementById('ModalLabel').innerHTML = "Budget Negotiation";
-                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp<label>Final budget negotiation: <input>";
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
+                var elem = document.createElement("input");
+                var elemCont = document.getElementById("ModalBody2");
+
+                elem.setAttribute("placeholder", "Write here the budget...");
+                elem.setAttribute("type", "number");
+
+                elemCont.appendChild(elem);
+
                 document.getElementById('FooterDefault').innerHTML = "Cancel";
                 document.getElementById('FooterSecond').innerHTML = "Submit";
+
+                document.getElementById('closemodal').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
+
+                document.getElementById('FooterDefault').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
 
                 document.getElementById('FooterSecond').onclick = function() {
 
@@ -285,6 +329,7 @@ function showEvent() {
                     httpRequestD.open('POST', '');
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequestD.send('');
+                    elemCont.removeChild(elem);
                     window.location = "tasklist.html";
                 }
             }
@@ -304,7 +349,7 @@ function showEvent() {
                 httpRequest2.open('POST', 'php/fmBudgetNegotiation.php');
                 httpRequest2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 httpRequest2.send('idTask=' + encodeURIComponent(idTask[stands]));
-                window.location = "tasklist.html";
+
 
 
             }
@@ -324,10 +369,12 @@ function getDecision() {
 function showSummary() {
     if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
-            var response = JSON.parse(this.responseText);
+            //alert(this.responseText);
+            var response = this.responseText;
+            alert(this.responseText);
 
-            document.getElementById('ModalLabel').innerHTML = "Approve or Reject the New Event Request"; //+ row.getElementsByTagName('td')[0].innerHTML + ": New Event Request";
-            document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
+            document.getElementById('ModalLabel').innerHTML = "Approve or Reject the Processed Event Request"; //+ row.getElementsByTagName('td')[0].innerHTML + ": New Event Request";
+            document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent + "<br><br>&nbsp&nbsp&nbsp&nbsp" + response.result;
             document.getElementById('FooterDefault').innerHTML = "Reject";
             document.getElementById('FooterSecond').innerHTML = "Approve";
 
