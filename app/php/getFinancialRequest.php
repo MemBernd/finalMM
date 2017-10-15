@@ -2,7 +2,7 @@
 require_once 'connection.php';
 
 
-$idTask= (isset($_POST['idTask'])) ? $_POST['idTask'] : 3;
+$idTask= (isset($_POST['idTask'])) ? $_POST['idTask'] : 0;
 echo json_encode(getFinancialRequest($idTask));
 
 function getFinancialRequest ($idTask) {
