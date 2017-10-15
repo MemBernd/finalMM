@@ -25,7 +25,7 @@ function modify($query) {
     }
 }
 
-//function to execute when deleting or callinp procedures
+//function to execute when deleting or calling procedures
 function execute($query) {
     global $con;
     if(mysqli_query($con,$query)) {
