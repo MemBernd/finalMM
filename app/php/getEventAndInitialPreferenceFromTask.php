@@ -1,5 +1,5 @@
 <?php
-include 'connection.php';
+require_once 'connection.php';
 
 //input is id of task
 $idTask= (isset($_POST['idTask'])) ? $_POST['idTask'] : 0;
@@ -15,6 +15,6 @@ $result2 = select($sql2);
 while($r2 = mysqli_fetch_assoc($result2)) {
     $rows['preferences'][] = $r2;
 }
-close();
+reseting();
 echo json_encode($rows);
 ?>

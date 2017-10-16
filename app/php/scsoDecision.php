@@ -17,6 +17,5 @@ if ($result == 1) {
 } else {
     $array = ["result" => "failure"];
 }
-close();
 echo json_encode($array);
 ?>

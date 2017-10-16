@@ -16,6 +16,5 @@ if(mysqli_num_rows($result) > 0) {
 } else {
     $array = ['feedback' => null];
 }
-close();
 echo json_encode($array);
 ?>

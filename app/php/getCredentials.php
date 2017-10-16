@@ -1,6 +1,6 @@
 
 <?php
-include 'connection.php';
+require_once 'connection.php';
 $name = (isset($_POST['username'])) ? $_POST['username'] : 'no username';
 $password = (isset($_POST['password'])) ? $_POST['password'] : 'no password';
 $sql="SELECT * FROM employee WHERE username = '".$name."' AND password = '".$password."';" ;
@@ -11,6 +11,5 @@ if(mysqli_num_rows($result) > 0) {
 } else {
     $array = ['creds' => 'false', 'role' => null];
 }
-close();
 echo json_encode($array);
 ?>

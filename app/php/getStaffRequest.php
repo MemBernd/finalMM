@@ -2,7 +2,7 @@
 require_once 'connection.php';
 
 
-$idTask= (isset($_POST['idTask'])) ? $_POST['idTask'] : 2;
+$idTask= (isset($_POST['idTask'])) ? $_POST['idTask'] : 0;
 
 $sql = "select * from staffrequest "
     ."WHERE idTask = ".$idTask.";";
@@ -14,6 +14,5 @@ if(mysqli_num_rows($result) > 0) {
 } else {
     $array = ['experience' => null, 'jobTitle' => null, 'jobDescription' => null];
 }
-close();
 echo json_encode($array);
 ?>
