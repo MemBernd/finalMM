@@ -64,7 +64,6 @@ function handleSTtask(url) {
 function getSTMContents(){
 	if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
-            alert(this.responseText);
             var response = JSON.parse(this.responseText);
             myExecution = response.result;
 
