@@ -6,9 +6,7 @@ $description = (isset($_POST['description'])) ? $_POST['description'] : "No desc
 $assignee = (isset($_POST['assignee'])) ? $_POST['assignee'] : 'no username';
 $priority = (isset($_POST['priority'])) ? $_POST['priority'] : 'medium';
 
-echo json_encode(createTask($idTask, $description, $assignee, $priority));
 
-function createTask($idTask, $description, $assignee, $priority) {
     $return = 'failure';
     $statusId = 15;
     $sql = "select assignee, eventRecord from task where idTask = ".$idTask.";";
@@ -27,6 +25,5 @@ function createTask($idTask, $description, $assignee, $priority) {
     }
 
     $array = ['result' => $return];
-    return $array;
-}
+    echo json_encode($array);
 ?>

@@ -31,6 +31,5 @@ if (mysqli_num_rows($result) > 0) {
 } else {
         $array = ["result" => "failure"];
 }
-close();
 echo json_encode($array);
 ?>

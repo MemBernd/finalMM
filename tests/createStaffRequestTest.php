@@ -1,14 +1,15 @@
+
 <?php
+
 use PHPUnit\Framework\TestCase;
-
-include 'taskListWrapper.php';
 require_once 'wrapper.php';
+require_once 'taskListWrapper.php';
 
-class createSummaryTest extends TestCase
+class createStaffRequestTest extends TestCase
 {
     public function testGetTaskList() {
-        $username = 'janet';
-        $statusId = 4;
+        $username = 'jack';
+        $statusId = 6;
         $obj = getTaskList($username);
         $size = sizeof($obj);
         for ($i = 0; $i <$size; $i++) {
@@ -17,18 +18,18 @@ class createSummaryTest extends TestCase
                 return $obj[$i]['idTask'];
             }
         }
-        $this -> assertTrue(false, "No task which could be decided upon.");
+        $this -> assertTrue(false, "No task for ".$username." with status ".$statusId.".");
     }
 
     /**
     *@depends testGetTaskList
     */
-    public function testCreateSummary($idTask) {
+    public function testcreateStaffRequest($idTask) {
 
         $_POST['idTask']= $idTask;
 
         //get output
-        $testingFile = 'createSummary.php';
+        $testingFile = 'createStaffRequest.php';
         $fileLocation = dirname(__FILE__).'/../app/php/'.$testingFile.'';
         $obj = wrapper($fileLocation);
         $size = sizeof($obj);
@@ -39,14 +40,14 @@ class createSummaryTest extends TestCase
     }
 
     /**
-    * @depends testCreateSummary
+    * @depends testcreateStaffRequest
     */
-    public function testCreateSummaryInvalidId() {
+    public function testcreateStaffRequestInvalidId() {
 
         $_POST['idTask'] = -1;
 
         //get output
-        $testingFile = 'createSummary.php';
+        $testingFile = 'createStaffRequest.php';
         $fileLocation = dirname(__FILE__).'/../app/php/'.$testingFile.'';
         $obj = wrapper($fileLocation);
         $size = sizeof($obj);
@@ -54,8 +55,5 @@ class createSummaryTest extends TestCase
         $this -> assertEquals("failure", $obj['result']);
 
     }
-
-
 }
-
 ?>
