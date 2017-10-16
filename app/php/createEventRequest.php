@@ -24,7 +24,6 @@ $result = modify($sql);
 
 if ($result == -1) {
     $array = ["result" => "failure"];
-    close();
     echo json_encode($array);
 } else {
     $array = ["result" => "success"];
@@ -62,7 +61,6 @@ if ($result == -1) {
             VALUES (".$result.", 'WiFi');";
         modify($sql);
     }
-    close();
     echo json_encode($array);
 }
 

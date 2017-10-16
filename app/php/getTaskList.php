@@ -8,12 +8,10 @@ $sql = "SELECT task.idTask, task.subject, task.description, task.priority, task.
     ." From task join eventrequest on task.eventRecord = eventrequest.eventRecord"
     ." WHERE task.assignee = '".$username."' AND NOT task.statusId = 10;";
 $result = select($sql);
-close();
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $r;
 }
 echo json_encode($rows);
-//print json_encode($rowsAlt);
 
 ?>
