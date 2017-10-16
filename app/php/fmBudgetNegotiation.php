@@ -19,12 +19,10 @@ function fmBudgetNegotiation($idTask, $amount) {
         if ($eventRecord > 0) {
             $sql = "UPDATE eventRequest SET budget = ".$amount." WHERE eventRecord = ".$eventRecord.";";
             $result = modify($sql);
-            echo $sql;
             if ($result != -1) {
                 $sql = "UPDATE `task` SET `subject` = 'Budget negotiation finished. ', description = 'Final amount is ".$amount."', `priority` = 'high', "
                     ." `creator` = '".$newCreator."', `assignee` = '".$newAssignee."', `statusId` = '14' WHERE `task`.`idTask` = ".$idTask.";";
                 $result = modify($sql);
-                echo $sql;
                 if($result != -1) {
                     $return = 'success';
                 }
