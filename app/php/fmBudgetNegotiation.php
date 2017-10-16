@@ -1,7 +1,7 @@
 <?php
 
 require_once 'connection.php';
-$idTask = (isset($_POST['idTask'])) ? $_Post['idTask'] : 0;
+$idTask = (isset($_POST['idTask'])) ? $_POST['idTask'] : 0;
 $amount = (isset($_POST['amount'])) ? $_POST['amount'] : 0;
 
 echo json_encode(fmBudgetNegotiation($idTask, $amount));
