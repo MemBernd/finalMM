@@ -4,10 +4,10 @@ var getEvent, getSCSOdecision;
 
 function name() {
     if (!sessionStorage.actor) {
-        window.location = "main.html";
+        window.location = "index.html";
     } else {
         if (window.location.pathname == "/app/cso.html" && sessionStorage.actor != "sarah") {
-            window.location = "main.html";
+            window.location = "index.html";
         } else {
             document.title = "SEP " + jsUcfirst(sessionStorage.actor);
             document.getElementById("makevisible").style.visibility = "visible";

@@ -8,31 +8,31 @@ var getEventAfter;
 
 function welcomeActor() {
     if (!sessionStorage.actor) {
-        window.location = "main.html";
+        window.location = "index.html";
     } else {
         if (window.location.pathname == "/app/cso.html" && sessionStorage.actor != "sarah") {
-            window.location = "main.html";
+            window.location = "index.html";
         } else if (window.location.pathname == "/app/summary.html" && sessionStorage.actor != "janet") {
-            window.location = "main.html";
+            window.location = "index.html";
         } else if (window.location.pathname == "/app/summary.html" && sessionStorage.actor == "janet") {
             document.title = "SEP Event Summary";
             document.getElementById("makevisible").style.visibility = "visible";
             document.getElementById("displayactor").innerHTML = "<h1>New event request summary for task #" + Cookies.get('idTaskk') + "</h1>";
         } else if ((window.location.pathname == "/app/jobAd.html" && (sessionStorage.actor != "jack")) && (window.location.pathname == "/app/jobAd.html" && (sessionStorage.actor != "natalie"))) {
-            window.location = "main.html";
+            window.location = "index.html";
         } else if (window.location.pathname == "/app/jobAd.html" && (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie")) {
             document.title = "SEP Staff Request";
             document.getElementById("makevisible").style.visibility = "visible";
             document.getElementById("displayactor").innerHTML = "<h1>New staff request for task #" + Cookies.get('idTaskk') + "</h1>";
         } else if ((window.location.pathname == "/app/taskSTM.html" && (sessionStorage.actor != "jack")) && (window.location.pathname == "/app/taskSTM.html" && (sessionStorage.actor != "natalie"))) {
-            window.location = "main.html";
+            window.location = "index.html";
         } else if (window.location.pathname == "/app/taskSTM.html" && (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie")) {
             document.title = "SEP SubTeam Request";
             document.getElementById("makevisible").style.visibility = "visible";
             document.getElementById("displayactor").innerHTML = "<h1>New subteam task #" + Cookies.get('idTaskk') + "</h1>";
             checkManager();
         } else if ((window.location.pathname == "/app/budgetNegotiation.html" && (sessionStorage.actor != "jack")) && (window.location.pathname == "/app/budgetNegotiation.html" && (sessionStorage.actor != "natalie"))) {
-            window.location = "main.html";
+            window.location = "index.html";
         } else if (window.location.pathname == "/app/budgetNegotiation.html" && (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie")) {
             document.title = "SEP Budget Negotiation";
             document.getElementById("makevisible").style.visibility = "visible";

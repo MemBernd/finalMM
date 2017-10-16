@@ -24,5 +24,5 @@ function getout() {
         createCookie(name, "", -1);
     }
     
-    window.location = "main.html";
+    window.location = "index.html";
 }
