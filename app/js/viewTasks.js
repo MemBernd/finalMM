@@ -552,7 +552,8 @@ function showEventAfter() {
             //condition=budgetNegotiated
             if (condition == 14) {
                 document.getElementById('ModalLabel').innerHTML = "Budget Negotiated";
-                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + "The budget was successfully approved by the Financial Manager";
+                document.getElementById('ModalBody').innerHTML = "<br>&nbsp&nbsp&nbsp&nbsp" + "The budget was successfully approved by the Financial Manager";
+                document.getElementById('ModalBody2').innerHTML = "";
 
                 document.getElementById('FooterDefault').innerHTML = "Close";
                 document.getElementById('FooterSecond').innerHTML = "Finished";
@@ -670,6 +671,7 @@ function getSTreview() {
 
             document.getElementById('ModalLabel').innerHTML = "Review SubTeam plan";
             document.getElementById('ModalBody').innerHTML = "<br>&nbsp&nbsp&nbsp&nbsp" + response.description;
+            document.getElementById('ModalBody2').innerHTML ="";
 
             document.getElementById('FooterDefault').innerHTML = "Close";
             document.getElementById('FooterSecond').innerHTML = "Finished";
