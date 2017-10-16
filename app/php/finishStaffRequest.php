@@ -1,11 +1,12 @@
 
 <?php
 require_once 'connection.php';
-$idTask = (isset($_POST['idTask'])) ? $_POST['idTask'] : 2 ;
+$idTask = (isset($_POST['idTask'])) ? $_POST['idTask'] : 0 ;
 
 
 $sql = "select assignee, creator from task where idTask = ".$idTask.";";
 $result = select($sql);
+$array = ["result" => "success"];
 if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $assignee = $row['assignee'];
@@ -25,6 +26,5 @@ if (mysqli_num_rows($result) > 0) {
 } else {    //if the search for username failed
     $array = ["result" => "failure"];
 }
-close();
 echo json_encode($array);
 ?>
