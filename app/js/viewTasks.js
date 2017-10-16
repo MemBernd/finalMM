@@ -42,7 +42,7 @@ function welcomeActor() {
             document.getElementById("makevisible").style.visibility = "visible";
             document.getElementById("displayactor").innerHTML = "<h1>Welcome " + jsUcfirst(sessionStorage.actor) + " </h1>";
 
-            if (sessionStorage.actor != "sarah" && sessionStorage.actor != "magy") {
+            if (sessionStorage.actor != "sarah") {
                 makeTaskRequest('php/getTaskList.php', sessionStorage.actor); //to be added
             }
         }
@@ -165,8 +165,6 @@ function addTaskHandler() {
                         httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
 
-
-
                         row.setAttribute("data-toggle", "modal");
                         row.setAttribute("data-target", "#myModal");
                     }
@@ -185,7 +183,59 @@ function addTaskHandler() {
                         httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
 
+                        row.setAttribute("data-toggle", "modal");
+                        row.setAttribute("data-target", "#myModal");
+                    }
 
+                    //case HR
+                    if (sessionStorage.actor == "simon") {
+                        var httpRequest = new XMLHttpRequest();
+
+                        if (!httpRequest) {
+                            alert('Giving up :( Cannot create an XMLHTTP instance');
+                            return false;
+                        }
+
+                        httpRequest.onreadystatechange = showEventAfter;
+                        httpRequest.open('POST', 'php/getEventFromTask.php');
+                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+                        row.setAttribute("data-toggle", "modal");
+                        row.setAttribute("data-target", "#myModal");
+                    }
+
+                    //case decoration team
+                    if (sessionStorage.actor == "magy" || sessionStorage.actor == "angelina" || sessionStorage.actor == "don" ||sessionStorage.actor == "tom") {
+                        var httpRequest = new XMLHttpRequest();
+
+                        if (!httpRequest) {
+                            alert('Giving up :( Cannot create an XMLHTTP instance');
+                            return false;
+                        }
+
+                        httpRequest.onreadystatechange = showEventAfter;
+                        httpRequest.open('POST', 'php/getEventFromTask.php');
+                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+                        row.setAttribute("data-toggle", "modal");
+                        row.setAttribute("data-target", "#myModal");
+                    }
+
+                    //case chef team
+                    if (sessionStorage.actor == "helen" || sessionStorage.actor == "diana" || sessionStorage.actor == "chris" ||sessionStorage.actor == "daniel" ||sessionStorage.actor == "marilyn") {
+                        var httpRequest = new XMLHttpRequest();
+
+                        if (!httpRequest) {
+                            alert('Giving up :( Cannot create an XMLHTTP instance');
+                            return false;
+                        }
+
+                        httpRequest.onreadystatechange = showEventAfter;
+                        httpRequest.open('POST', 'php/getEventFromTask.php');
+                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
 
                         row.setAttribute("data-toggle", "modal");
                         row.setAttribute("data-target", "#myModal");
@@ -315,43 +365,18 @@ function showEvent() {
 
             //condition = pendingRequest
             if (condition == 9) {
-                document.getElementById('ModalLabel').innerHTML = "Budget Negotiation";
-                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
-                var elem = document.createElement("input");
-                var elemCont = document.getElementById("ModalBody2");
+                var httpRequestF = new XMLHttpRequest();
 
-                elem.setAttribute("placeholder", "Write here the budget...");
-                elem.setAttribute("type", "number");
-
-                elemCont.appendChild(elem);
-
-                document.getElementById('FooterDefault').innerHTML = "Cancel";
-                document.getElementById('FooterSecond').innerHTML = "Submit";
-
-                document.getElementById('closemodal').onclick = function() {
-                    elemCont.removeChild(elem);
+                if (!httpRequestF) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
                 }
 
-                document.getElementById('FooterDefault').onclick = function() {
-                    elemCont.removeChild(elem);
-                }
+                httpRequestF.onreadystatechange = getBudgetNeg;
+                httpRequestF.open('POST', 'php/getFinancialRequest.php');
+                httpRequestF.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestF.send('idTask=' + encodeURIComponent(idTask[stands]));
 
-                document.getElementById('FooterSecond').onclick = function() {
-
-                    var httpRequestD = new XMLHttpRequest();
-
-                    if (!httpRequestD) {
-                        alert('Giving up :( Cannot create an XMLHTTP instance');
-                        return false;
-                    }
-
-                    httpRequestD.onreadystatechange = getDecision;
-                    httpRequestD.open('POST', '');
-                    httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    httpRequestD.send('');
-                    elemCont.removeChild(elem);
-
-                }
             }
 
             //AM test case
@@ -370,8 +395,52 @@ function showEvent() {
                 httpRequest2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 httpRequest2.send('idTask=' + encodeURIComponent(idTask[stands]));
 
+            }
+        }
+    }
+}
 
+function getBudgetNeg() {
+    if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
 
+            document.getElementById('ModalLabel').innerHTML = "Budget Negotiation";
+            document.getElementById('ModalBody').innerHTML = "<br>&nbsp&nbsp&nbsp&nbsp<b>Amount: </b>" + response.amount + "<br>&nbsp&nbsp&nbsp&nbsp<b>Reason: </b>" + response.reason + "<br><br>&nbsp&nbsp&nbsp&nbsp<b>Insert budget negotiation: </b>";
+
+            var elem = document.createElement("input");
+            var elemCont = document.getElementById("ModalBody2");
+
+            elem.setAttribute("placeholder", "Amount...");
+            elem.setAttribute("type", "number");
+
+            elemCont.appendChild(elem);
+
+            document.getElementById('FooterDefault').innerHTML = "Close";
+            document.getElementById('FooterSecond').innerHTML = "Send";
+
+            document.getElementById('closemodal').onclick = function() {
+                elemCont.removeChild(elem);
+            }
+
+            document.getElementById('FooterDefault').onclick = function() {
+                elemCont.removeChild(elem);
+            }
+
+            document.getElementById('FooterSecond').onclick = function() {
+
+                var httpRequestD = new XMLHttpRequest();
+
+                if (!httpRequestD) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequestD.onreadystatechange = getDecision;
+                httpRequestD.open('POST', 'php/fmBudgetNegotiation.php');
+                httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&amount=' + encodeURIComponent(elem.value));
+                elemCont.removeChild(elem);
             }
         }
     }
@@ -444,6 +513,10 @@ function showEventAfter() {
                 document.getElementById('FooterDefault').innerHTML = "Budget Negotiation";
                 document.getElementById('FooterSecond').innerHTML = "Finished";
 
+                document.getElementById('closemodal').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
+
                 elem.onclick = function() {
 
                     Cookies.set('idTaskk', idTask[stands]);
@@ -482,13 +555,7 @@ function showEventAfter() {
                 document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + "The budget was successfully approved by the Financial Manager";
 
                 document.getElementById('FooterDefault').innerHTML = "Close";
-                document.getElementById('FooterSecond').innerHTML = "OK";
-
-                document.getElementById('FooterDefault').onclick = function() {
-
-                    window.location = "tasklist.html";
-
-                }
+                document.getElementById('FooterSecond').innerHTML = "Finished";
 
                 document.getElementById('FooterSecond').onclick = function() {
 
@@ -522,6 +589,64 @@ function showEventAfter() {
                 httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
             }
 
+            //HR test cases
+            //condition = staffRequest
+            if (condition == 11) {
+                var httpRequestD = new XMLHttpRequest();
+
+                if (!httpRequestD) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequestD.onreadystatechange = getHRrequest;
+                httpRequestD.open('POST', 'php/getStaffRequest.php');
+                httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+            }
+
+            //ST test case
+            //condition = pendingPlan
+            if (condition == 15) {
+                document.getElementById('ModalLabel').innerHTML = "Create Plan";
+                document.getElementById('ModalBody').innerHTML = "<br>&nbsp&nbsp&nbsp&nbsp<b>Description: </b>";
+                var elem = document.createElement("textarea");
+                var elemCont = document.getElementById("ModalBody2");
+
+                elem.setAttribute("placeholder", "Write here your plan...");
+                elem.setAttribute("cols", 65);
+                elem.setAttribute("rows", 6);
+
+                elemCont.appendChild(elem);
+
+                document.getElementById('FooterDefault').innerHTML = "Cancel";
+                document.getElementById('FooterSecond').innerHTML = "Submit";
+
+                document.getElementById('closemodal').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
+
+                document.getElementById('FooterDefault').onclick = function() {
+                    elemCont.removeChild(elem);
+                }
+
+                document.getElementById('FooterSecond').onclick = function() {
+
+                    var httpRequestS = new XMLHttpRequest();
+
+                    if (!httpRequestS) {
+                        alert('Giving up :( Cannot create an XMLHTTP instance');
+                        return false;
+                    }
+
+                    httpRequestS.onreadystatechange = getDecision;
+                    httpRequestS.open('POST', 'php/createPlan.php');
+                    httpRequestS.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    httpRequestS.send('idTask=' + encodeURIComponent(idTask[stands]) + '&description=' + encodeURIComponent(elem.value));
+                    elemCont.removeChild(elem);
+                }
+            }
+
 
         }
     }
@@ -530,6 +655,7 @@ function showEventAfter() {
 function getDecision() {
     if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
+            //alert(this.responseText);
             var response = JSON.parse(this.responseText);
             alert(response.result);
             window.location = "tasklist.html";
@@ -543,16 +669,10 @@ function getSTreview() {
             var response = JSON.parse(this.responseText);
 
             document.getElementById('ModalLabel').innerHTML = "Review SubTeam plan";
-            document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + response.description;
+            document.getElementById('ModalBody').innerHTML = "<br>&nbsp&nbsp&nbsp&nbsp" + response.description;
 
             document.getElementById('FooterDefault').innerHTML = "Close";
-            document.getElementById('FooterSecond').innerHTML = "OK";
-
-            document.getElementById('FooterDefault').onclick = function() {
-
-                window.location = "tasklist.html";
-
-            }
+            document.getElementById('FooterSecond').innerHTML = "Finished";
 
             document.getElementById('FooterSecond').onclick = function() {
 
@@ -572,6 +692,38 @@ function getSTreview() {
         }
     }
 }
+
+function getHRrequest() {
+    if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+
+            document.getElementById('ModalLabel').innerHTML = "New Staff Requested";
+            document.getElementById('ModalBody').innerHTML = "<br>&nbsp&nbsp&nbsp&nbsp<b>Job Title: </b>" + response.jobTitle + "<br>&nbsp&nbsp&nbsp&nbsp<b>Job Description: </b>" + response.jobDescription + "<br>&nbsp&nbsp&nbsp&nbsp<b>Experience: </b>" + response.experience;
+
+            document.getElementById('FooterDefault').innerHTML = "Close";
+            document.getElementById('FooterSecond').innerHTML = "Done";
+
+            document.getElementById('FooterSecond').onclick = function() {
+
+                var httpRequestD = new XMLHttpRequest();
+
+                if (!httpRequestD) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequestD.onreadystatechange = getDecision;
+                httpRequestD.open('POST', 'php/finishStaffRequest.php');
+                httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+            }
+        }
+    }
+}
+
+
 
 function showSummary() {
     if (this.readyState === XMLHttpRequest.DONE) {
