@@ -4,6 +4,7 @@ var eventRecord = [];
 var getEvent, getSCSOdecision, getAMdecision;
 var condition, stands;
 var idSummary;
+var getEventAfter;
 
 function welcomeActor() {
     if (!sessionStorage.actor) {
@@ -16,19 +17,36 @@ function welcomeActor() {
         } else if (window.location.pathname == "/app/summary.html" && sessionStorage.actor == "janet") {
             document.title = "SEP Event Summary";
             document.getElementById("makevisible").style.visibility = "visible";
-            document.getElementById("displayactor").innerHTML = "<h1>New event request summary for task #" + Cookies.get('idTaskSum') + "</h1>"; 
-        } 
-        else {
+            document.getElementById("displayactor").innerHTML = "<h1>New event request summary for task #" + Cookies.get('idTaskk') + "</h1>";
+        } else if ((window.location.pathname == "/app/jobAd.html" && (sessionStorage.actor != "jack")) && (window.location.pathname == "/app/jobAd.html" && (sessionStorage.actor != "natalie"))) {
+            window.location = "main.html";
+        } else if (window.location.pathname == "/app/jobAd.html" && (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie")) {
+            document.title = "SEP Staff Request";
+            document.getElementById("makevisible").style.visibility = "visible";
+            document.getElementById("displayactor").innerHTML = "<h1>New staff request for task #" + Cookies.get('idTaskk') + "</h1>";
+        } else if ((window.location.pathname == "/app/taskSTM.html" && (sessionStorage.actor != "jack")) && (window.location.pathname == "/app/taskSTM.html" && (sessionStorage.actor != "natalie"))) {
+            window.location = "main.html";
+        } else if (window.location.pathname == "/app/taskSTM.html" && (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie")) {
+            document.title = "SEP SubTeam Request";
+            document.getElementById("makevisible").style.visibility = "visible";
+            document.getElementById("displayactor").innerHTML = "<h1>New subteam task #" + Cookies.get('idTaskk') + "</h1>";
+            checkManager();
+        } else if ((window.location.pathname == "/app/budgetNegotiation.html" && (sessionStorage.actor != "jack")) && (window.location.pathname == "/app/budgetNegotiation.html" && (sessionStorage.actor != "natalie"))) {
+            window.location = "main.html";
+        } else if (window.location.pathname == "/app/budgetNegotiation.html" && (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie")) {
+            document.title = "SEP Budget Negotiation";
+            document.getElementById("makevisible").style.visibility = "visible";
+            document.getElementById("displayactor").innerHTML = "<h1>New budget negotiation for task #" + Cookies.get('idTaskk') + "</h1>";
+        } else {
             document.title = "SEP " + jsUcfirst(sessionStorage.actor);
             document.getElementById("makevisible").style.visibility = "visible";
             document.getElementById("displayactor").innerHTML = "<h1>Welcome " + jsUcfirst(sessionStorage.actor) + " </h1>";
-            
+
             if (sessionStorage.actor != "sarah" && sessionStorage.actor != "magy") {
                 makeTaskRequest('php/getTaskList.php', sessionStorage.actor); //to be added
             }
         }
     }
-
 }
 
 //function to capitalize first letter of a string
@@ -153,6 +171,26 @@ function addTaskHandler() {
                         row.setAttribute("data-target", "#myModal");
                     }
 
+                    //case STM
+                    if (sessionStorage.actor == "jack" || sessionStorage.actor == "natalie") {
+                        var httpRequest = new XMLHttpRequest();
+
+                        if (!httpRequest) {
+                            alert('Giving up :( Cannot create an XMLHTTP instance');
+                            return false;
+                        }
+
+                        httpRequest.onreadystatechange = showEventAfter;
+                        httpRequest.open('POST', 'php/getEventFromTask.php');
+                        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        httpRequest.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+
+
+                        row.setAttribute("data-toggle", "modal");
+                        row.setAttribute("data-target", "#myModal");
+                    }
+
 
                 };
             };
@@ -196,7 +234,7 @@ function showEvent() {
                     httpRequestD.open('POST', 'php/scsoDecision.php');
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&decision=' + encodeURIComponent(getSCSOdecision));
-                    window.location = "tasklist.html";
+
                 }
 
                 document.getElementById('FooterSecond').onclick = function() {
@@ -212,7 +250,7 @@ function showEvent() {
                     httpRequestD.open('POST', 'php/scsoDecision.php');
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&decision=' + encodeURIComponent(getSCSOdecision));
-                    window.location = "tasklist.html";
+
 
                 }
             }
@@ -221,14 +259,14 @@ function showEvent() {
             if (condition == 4) {
                 document.getElementById('ModalLabel').innerHTML = "Create Summary";
                 document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
-                
+
                 document.getElementById('FooterDefault').innerHTML = "Cancel";
                 document.getElementById('FooterSecond').innerHTML = "Create";
 
                 document.getElementById('FooterSecond').onclick = function() {
                     idSummary = idTask[stands];
-                    Cookies.set('idTaskSum', idSummary);
-                    window.location = "summary.html"
+                    Cookies.set('idTaskk', idSummary);
+                    window.location = "summary.html";
                 }
             }
 
@@ -271,7 +309,7 @@ function showEvent() {
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&description=' + encodeURIComponent(elem.value));
                     elemCont.removeChild(elem);
-                    window.location = "tasklist.html";
+
                 }
             }
 
@@ -312,7 +350,7 @@ function showEvent() {
                     httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     httpRequestD.send('');
                     elemCont.removeChild(elem);
-                    window.location = "tasklist.html";
+
                 }
             }
 
@@ -339,11 +377,198 @@ function showEvent() {
     }
 }
 
+function showEventAfter() {
+    if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+
+            var preferences = [];
+
+            if (response.preferences) {
+                for (var i = 0; i < response.preferences.length; i++) {
+                    preferences.push(response.preferences[i].preference + ": " + response.preferences[i].description);
+                }
+            }
+
+            getEventAfter = "<p>&nbsp&nbsp&nbsp&nbsp <b>Event Record: </b>" + response.task.eventRecord + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Event Type: </b>" + response.task.eventType + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Start Date:</b> " + response.task.eventStartDateTime + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>End Date:</b> " + response.task.eventEndDateTime + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Attendees:</b> " + response.task.attendees + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Budget:</b> " + response.task.budget + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Client Name:</b> " + response.task.clientName + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Company:</b> " + response.task.company + "</p>" + "<p>&nbsp&nbsp&nbsp&nbsp <b>Preferences:</b> " + "</p>";
+
+            //STM test cases
+            //condition = summaryCreated
+            if (condition == 6) {
+                document.getElementById('ModalLabel').innerHTML = "Event Request Open or More Staff Needed?";
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEventAfter;
+                document.getElementById('ModalBody2').innerHTML = preferences.join(" <br> ");
+                document.getElementById('FooterDefault').innerHTML = "Staff Request";
+                document.getElementById('FooterSecond').innerHTML = "Open";
+
+                document.getElementById('FooterDefault').onclick = function() {
+
+                    Cookies.set('idTaskk', idTask[stands]);
+                    window.location = "jobAd.html";
+
+                }
+
+                document.getElementById('FooterSecond').onclick = function() {
+
+                    var httpRequestD = new XMLHttpRequest();
+
+                    if (!httpRequestD) {
+                        alert('Giving up :( Cannot create an XMLHTTP instance');
+                        return false;
+                    }
+
+                    httpRequestD.onreadystatechange = getDecision;
+                    httpRequestD.open('POST', 'php/openTask.php');
+                    httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+                }
+            }
+
+            //condition=open
+            if (condition == 7) {
+                document.getElementById('ModalLabel').innerHTML = "Event Request is Open";
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEventAfter;
+                document.getElementById('ModalBody2').innerHTML = preferences.join(" <br> ");
+
+                var elem = document.createElement("button");
+                var elemCont = document.getElementById("finalbuttons");
+
+                elem.setAttribute("class", "btn btn-default");
+                elem.setAttribute("type", "button");
+                elem.setAttribute("data-dismiss", "modal");
+                elem.innerHTML = "Create Task";
+
+                elemCont.insertBefore(elem, elemCont.childNodes[0]);
+
+                document.getElementById('FooterDefault').innerHTML = "Budget Negotiation";
+                document.getElementById('FooterSecond').innerHTML = "Finished";
+
+                elem.onclick = function() {
+
+                    Cookies.set('idTaskk', idTask[stands]);
+                    elemCont.removeChild(elem);
+                    window.location = "taskSTM.html";
+                }
+
+                document.getElementById('FooterDefault').onclick = function() {
+
+                    Cookies.set('idTaskk', idTask[stands]);
+                    elemCont.removeChild(elem);
+                    window.location = "budgetNegotiation.html";
+
+                }
+
+                document.getElementById('FooterSecond').onclick = function() {
+
+                    var httpRequestD = new XMLHttpRequest();
+
+                    if (!httpRequestD) {
+                        alert('Giving up :( Cannot create an XMLHTTP instance');
+                        return false;
+                    }
+
+                    httpRequestD.onreadystatechange = getDecision;
+                    httpRequestD.open('POST', 'php/finishTaskSTM.php');
+                    httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+                    elemCont.removeChild(elem);
+                }
+            }
+
+            //condition=budgetNegotiated
+            if (condition == 14) {
+                document.getElementById('ModalLabel').innerHTML = "Budget Negotiated";
+                document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + "The budget was successfully approved by the Financial Manager";
+
+                document.getElementById('FooterDefault').innerHTML = "Close";
+                document.getElementById('FooterSecond').innerHTML = "OK";
+
+                document.getElementById('FooterDefault').onclick = function() {
+
+                    window.location = "tasklist.html";
+
+                }
+
+                document.getElementById('FooterSecond').onclick = function() {
+
+                    var httpRequestD = new XMLHttpRequest();
+
+                    if (!httpRequestD) {
+                        alert('Giving up :( Cannot create an XMLHTTP instance');
+                        return false;
+                    }
+
+                    httpRequestD.onreadystatechange = getDecision;
+                    httpRequestD.open('POST', 'php/finishTask.php');
+                    httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+                }
+            }
+
+            //condition=reviewSTM
+            if (condition == 8) {
+                var httpRequestD = new XMLHttpRequest();
+
+                if (!httpRequestD) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequestD.onreadystatechange = getSTreview;
+                httpRequestD.open('POST', 'php/getPlan.php');
+                httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+            }
+
+
+        }
+    }
+}
+
 function getDecision() {
     if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
             var response = JSON.parse(this.responseText);
             alert(response.result);
+            window.location = "tasklist.html";
+        }
+    }
+}
+
+function getSTreview() {
+    if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+
+            document.getElementById('ModalLabel').innerHTML = "Review SubTeam plan";
+            document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + response.description;
+
+            document.getElementById('FooterDefault').innerHTML = "Close";
+            document.getElementById('FooterSecond').innerHTML = "OK";
+
+            document.getElementById('FooterDefault').onclick = function() {
+
+                window.location = "tasklist.html";
+
+            }
+
+            document.getElementById('FooterSecond').onclick = function() {
+
+                var httpRequestD = new XMLHttpRequest();
+
+                if (!httpRequestD) {
+                    alert('Giving up :( Cannot create an XMLHTTP instance');
+                    return false;
+                }
+
+                httpRequestD.onreadystatechange = getDecision;
+                httpRequestD.open('POST', 'php/finishTask.php');
+                httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]));
+
+            }
         }
     }
 }
@@ -353,7 +578,7 @@ function showSummary() {
         if (this.status === 200) {
             var response = JSON.parse(this.responseText);
 
-            document.getElementById('ModalLabel').innerHTML = "Approve or Reject the Processed Event Request"; 
+            document.getElementById('ModalLabel').innerHTML = "Approve or Reject the Processed Event Request";
             document.getElementById('ModalBody').innerHTML = "&nbsp&nbsp&nbsp&nbsp" + getEvent;
             document.getElementById('ModalBody2').innerHTML = "<b>Financial's Manager feedback: </b><p>" + response.feedback + "</p>";
             document.getElementById('FooterDefault').innerHTML = "Reject";
@@ -372,7 +597,6 @@ function showSummary() {
                 httpRequestD.open('POST', 'php/amDecision.php');
                 httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&decision=' + encodeURIComponent(getAMdecision));
-                window.location = "tasklist.html";
             }
 
             document.getElementById('FooterSecond').onclick = function() {
@@ -388,7 +612,6 @@ function showSummary() {
                 httpRequestD.open('POST', 'php/amDecision.php');
                 httpRequestD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 httpRequestD.send('idTask=' + encodeURIComponent(idTask[stands]) + '&decision=' + encodeURIComponent(getAMdecision));
-                window.location = "tasklist.html";
 
             }
 
